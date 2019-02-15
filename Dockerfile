@@ -12,4 +12,12 @@ RUN apk add e2fsprogs bash tar rsync squashfs-tools
 ADD docker2singularity.sh /docker2singularity.sh
 RUN chmod a+x docker2singularity.sh
 
+# switch out tar due to issue on Mac.  
+# issue #44
+RUN apk add --update libarchive-tools && \
+    apk del tar && \
+    ln -sf $(which bsdtar) /usr/bin/_tar
+ADD tar /usr/local/bin/tar
+RUN rm /bin/tar
+
 ENTRYPOINT ["docker-entrypoint.sh", "/docker2singularity.sh"]

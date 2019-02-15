@@ -1,0 +1,12 @@
+#!/bin/bash
+set -e
+
+ORIGINAL_ARGS=("$@")
+TRIMMED_ARGS=()
+for arg; do
+  if [ $arg != "--ignore-failed-read" ]; then
+    TRIMMED_ARGS+=($arg)
+  fi
+done
+
+/usr/bin/_tar ${TRIMMED_ARGS[@]}
